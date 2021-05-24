@@ -1,0 +1,129 @@
+.sc-message {
+  width: 300px;
+  margin: auto;
+  padding-bottom: 10px;
+  display: flex;
+}
+
+/* added by me start */
+.sc-message--wrapper {
+  width: 300px;
+  margin: auto;
+}
+
+.sc-message--info {
+  color: #4a5568;
+  font-size: 12px;
+  display: flex;
+  justify-content: flex-start;
+  width: 300px;
+  margin-top: 4px;
+  /* margin: auto; */
+}
+
+.sc-message--info.sent {
+  justify-content: flex-end;
+}
+
+.sc-message--info.admin {
+  padding-left: 45px;
+}
+
+.sc-message--author {
+  /* margin: 0 0 0 45px; */
+  margin: 0;
+}
+
+.sc-message--info.sent .sc-message--author {
+  display: none;
+}
+
+.sc-message--time {
+  margin: 0 0 0 5px;
+}
+/* added by me end */
+
+.sc-message--content {
+  width: 100%;
+  display: flex;
+}
+
+.sc-message--content.sent {
+  justify-content: flex-end;
+}
+
+.sc-message--content.sent .sc-message--avatar {
+  display: none;
+}
+/* updated by me */
+.sc-message--avatar {
+  background-image: url(https://i.pinimg.com/originals/5f/2e/8b/5f2e8bb9837ac966fe4346387082d346.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  min-width: 30px;
+  min-height: 30px;
+  border-radius: 50%;
+  align-self: center;
+  margin-right: 15px;
+}
+/* width: calc(100% - 90px) */
+.sc-message--text {
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  -webkit-font-smoothing: subpixel-antialiased;
+  word-wrap: break-word;
+  /* width: calc(100% - 80px); */
+}
+/* max-width: calc(100% - 120px) */
+.sc-message--content.sent .sc-message--text {
+  color: #263238;
+  background-color: #c7e4fa;
+  max-width: calc(100% - 80px);
+  word-wrap: break-word;
+}
+
+.sc-message--content.received .sc-message--text {
+  color: #263238;
+  background-color: #e8e8e8;
+  margin-right: 40px;
+}
+
+.sc-message--emoji {
+  font-size: 40px;
+}
+
+.sc-message--file {
+  background: white;
+  border: solid 1px #cccdd1;
+  padding: 15px 20px;
+  border-radius: 5px;
+  display: flex;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sc-message--file p {
+  margin: 0px 0px 0px 10px;
+  color: rgba(86, 88, 103, 0.6);
+}
+
+.sc-message--file .sc-user-input--file-icon:hover path {
+  fill: rgba(86, 88, 103, 0.3);
+}
+
+@media (max-width: 360px) {
+  .sc-message {
+    width: 92%;
+  }
+  .sc-message--info {
+    width: 92%;
+  }
+}

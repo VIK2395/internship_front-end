@@ -1,0 +1,15 @@
+/* .password-requirements {
+  overflow: hidden;
+}
+
+.password-requirements.shown {
+  height: auto;
+}
+
+input:invalid {
+  border-color: red;
+}
+
+input:focus:invalid {
+  border-color: none;
+} */
