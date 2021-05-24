@@ -47,7 +47,7 @@ const LoginForm = props => {
           title: user.message,
           position: 'bottom',
           status: 'warning',
-          duration: null, // 2400
+          duration: null,
           isClosable: true,
         });
         dispatch(setIsAuthenticated(false));
@@ -60,6 +60,7 @@ const LoginForm = props => {
         duration: null, // 9000
         isClosable: true,
       });
+      dispatch(setIsAuthenticated(false));
     }
   };
 

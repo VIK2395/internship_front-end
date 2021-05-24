@@ -9,14 +9,13 @@ import {
   InputLeftAddon,
   useToast,
   InputRightElement,
-  VStack,
   Text,
   Box,
   List,
   ListItem,
   ListIcon,
-  Center,
-  Heading,
+  FormErrorMessage,
+  FormControl,
 } from '@chakra-ui/react';
 import {
   EmailIcon,
@@ -28,7 +27,7 @@ import {
 } from '@chakra-ui/icons';
 import { useDispatch } from 'react-redux';
 import { socket } from '../../socketioConfig/socketioConfig';
-import { setIsAuthenticated } from '../../redux/actions';
+import { setIsAuthenticated, setUser } from '../../redux/actions';
 import './style.css';
 
 const SignupForm = props => {
@@ -41,19 +40,42 @@ const SignupForm = props => {
   const toast = useToast();
   const [show, setShow] = useState(false);
   const handlePasswordShow = () => setShow(!show);
-  const [isRequirementsShown, setIsRequirementsShown] = useState(true);
+  const [passwordErrors, setPasswordErrors] = useState([]);
 
-  const isPasswordInvalid = () => {
-    const regExp = new RegExp(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/);
-    console.log(regExp.test(password));
+  const validatePassword = () => {
+    const errors = [];
+    const lowerCaseLettersRegExp = new RegExp(/[a-z]/, 'g');
+    const upperCaseLettersRegExp = new RegExp(/[A-Z]/, 'g');
+    const numbersRegExp = new RegExp(/[0-9]/, 'g');
+    const specialSymbolsRegExp = new RegExp(/[!@#$%^&*(),.?":{}|<>]/, 'g');
+
+    if (password.length < 8) {
+      errors.push('Password must contain at least 8 characters');
+    }
+    if (!lowerCaseLettersRegExp.test(password)) {
+      errors.push('Password must contain at least one lowercase letter');
+    }
+    if (!upperCaseLettersRegExp.test(password)) {
+      errors.push('Password must contain at least one uppercase letter');
+    }
+    if (!numbersRegExp.test(password)) {
+      errors.push('Password must contain at least one number');
+    }
+    if (!specialSymbolsRegExp.test(password)) {
+      errors.push('Password must contain at least one special symbol');
+    }
+    return errors;
   };
 
   const handleSubmit = async event => {
     event.preventDefault();
 
-    // isPasswordInvalid();
+    const errors = validatePassword();
 
-    // return;
+    if (errors.length !== 0) {
+      setPasswordErrors(errors);
+      return;
+    }
 
     try {
       setIsLoading(true);
@@ -74,6 +96,7 @@ const SignupForm = props => {
           duration: 3600,
           isClosable: true,
         });
+        dispatch(setUser(user));
         dispatch(setIsAuthenticated(true));
 
         socket.connect();
@@ -92,7 +115,7 @@ const SignupForm = props => {
       toast({
         title: e.message,
         status: 'error',
-        duration: null, // 9000
+        duration: null,
         isClosable: true,
       });
       dispatch(setIsAuthenticated(false));
@@ -117,59 +140,69 @@ const SignupForm = props => {
             onChange={event => setEmail(event.currentTarget.value)}
           />
         </InputGroup>
-        <InputGroup>
-          <InputLeftAddon>
-            <LockIcon boxSize={5} color="gray.600" />
-          </InputLeftAddon>
-          <Input
-            type={show ? 'text' : 'password'}
-            placeholder="Password"
-            required
-            minLength="8"
-            // maxLength="16"
-            // (?=.*[0-9]) at least one number // (?=.*[!@#$%^&*]) at least one special character
-            pattern={/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/}
-            color="rgba(255, 255, 255, 0.875)"
-            // isInvalid
-            focusBorderColor="teal.400"
-            value={password}
-            onChange={event => setPassword(event.currentTarget.value)}
-          />
-          <InputRightElement onClick={handlePasswordShow} pr={2}>
-            {show ? <ViewOffIcon color="white" /> : <ViewIcon color="white" />}
-          </InputRightElement>
-        </InputGroup>
-
-        {/* bg="linear-gradient(#e66465, #9198e5)"
-      bg="linear-gradient(45deg, #9dc66b 5%, #4fa49a 30%, #4361c2)"
-      bg="#f0f4f4"
-      bg="#323459 linear-gradient(135deg, rgba(114, 97, 147, 0.175) 25%, rgba(227, 123, 124, 0.175) 50%, rgba(255, 228, 180, 0.175))" */}
-
-        <Box px={2}>
+        <Box>
+          <FormControl isInvalid={passwordErrors.length !== 0}>
+            <InputGroup>
+              <InputLeftAddon>
+                <LockIcon boxSize={5} color="gray.600" />
+              </InputLeftAddon>
+              <Input
+                type={show ? 'text' : 'password'}
+                placeholder="Password"
+                required
+                color="rgba(255, 255, 255, 0.875)"
+                focusBorderColor="teal.400"
+                value={password}
+                errorBorderColor="orange.600"
+                onChange={event => setPassword(event.currentTarget.value)}
+              />
+              <InputRightElement onClick={handlePasswordShow} pr={2}>
+                {show ? <ViewOffIcon color="white" /> : <ViewIcon color="white" />}
+              </InputRightElement>
+            </InputGroup>
+            {passwordErrors.length > 0 ? (
+              <Box px={5} mt={4}>
+                {passwordErrors.map(error => (
+                  <FormErrorMessage color="orange" key={error}>
+                    {error}
+                  </FormErrorMessage>
+                ))}
+              </Box>
+            ) : null}
+          </FormControl>
           <Box
             px={4}
             py={2}
+            mx={2}
+            mt={6}
             bg="#323459 linear-gradient(135deg, rgba(114, 97, 147, 0.175) 25%, rgba(227, 123, 124, 0.175) 50%, rgba(255, 228, 180, 0.175))"
-            w="100%"
             border="1px"
             // borderColor="rgba(255, 255, 255, 0.875)"
             borderRadius="8px"
           >
-            <Text color="white" fontSize="lg" textAlign="center" mb={2} textDecoration="bold">
+            <Text color="white" fontSize="16px" textAlign="center" mb={2} textDecoration="bold">
               Password Requirements:
             </Text>
             <List spacing={1} my="0px" py="0px">
-              <ListItem color="white">
+              <ListItem color="white" fontSize="14px">
                 <ListIcon boxSize={3} mb="3px" as={WarningTwoIcon} color="white" />
                 MUST contain at least 8 characters
               </ListItem>
-              <ListItem color="white">
+              <ListItem color="white" fontSize="14px">
+                <ListIcon boxSize={3} mb="3px" as={WarningTwoIcon} color="white" />
+                MUST contain at least one lowercase letter
+              </ListItem>
+              <ListItem color="white" fontSize="14px">
+                <ListIcon boxSize={3} mb="3px" as={WarningTwoIcon} color="white" />
+                MUST contain at least one uppercase letter
+              </ListItem>
+              <ListItem color="white" fontSize="14px">
                 <ListIcon boxSize={3} mb="3px" as={WarningTwoIcon} color="white" />
                 MUST contain at least one number
               </ListItem>
-              <ListItem color="white">
+              <ListItem color="white" fontSize="14px">
                 <ListIcon boxSize={3} mb="3px" as={WarningTwoIcon} color="white" />
-                MUST contain at least one special character (!@#$%^&*)
+                MUST contain at least one special symbol {`(!@#$%^&*(),.?":{}|<>)`}
               </ListItem>
             </List>
           </Box>
@@ -182,7 +215,6 @@ const SignupForm = props => {
             type="text"
             placeholder="First Name"
             required
-            // pattern="/^[A-Z][a-z0-9_-]{3,19}$/"
             color="rgba(255, 255, 255, 0.875)"
             focusBorderColor="teal.400"
             value={firstName}
@@ -197,7 +229,6 @@ const SignupForm = props => {
             type="text"
             placeholder="Last Name"
             required
-            // pattern="/^[A-Z][a-z0-9_-]{3,19}$/"
             color="rgba(255, 255, 255, 0.875)"
             focusBorderColor="teal.400"
             value={lastName}
