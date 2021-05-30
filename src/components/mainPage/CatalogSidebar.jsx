@@ -13,7 +13,7 @@ const CatalogSidebar = () => {
     dispatch(fetchComicsesThunkCreator());
   };
 
-  const onClearFiltyers = () => {
+  const onClearFilters = () => {
     dispatch(clearFilters());
     dispatch(fetchComicsesThunkCreator());
   };
@@ -23,7 +23,7 @@ const CatalogSidebar = () => {
     <Box minW="320px" px={4} display={{ base: 'none', lg: 'block' }}>
       <ComicsFilterBody />
       <Box mt="-1px" py={6} bg="white" pos="sticky" bottom="0" borderTopWidth="1px" d="flex">
-        <Button mr={2} pr={4} colorScheme="yellow" onClick={onClearFiltyers}>
+        <Button mr={2} pr={4} colorScheme="yellow" onClick={onClearFilters}>
           Clear
         </Button>
         <Button w="100%" colorScheme="green" onClick={onApplyFilters}>
