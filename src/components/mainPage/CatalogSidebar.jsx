@@ -15,6 +15,7 @@ const CatalogSidebar = () => {
 
   const onClearFiltyers = () => {
     dispatch(clearFilters());
+    dispatch(fetchComicsesThunkCreator());
   };
 
   // pos="sticky" top={6}

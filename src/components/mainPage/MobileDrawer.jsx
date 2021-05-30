@@ -24,6 +24,8 @@ const MobileDrawer = ({ isOpen, onClose }) => {
 
   const onClearFiltyers = () => {
     dispatch(clearFilters());
+    dispatch(fetchComicsesThunkCreator());
+    onClose();
   };
 
   return (
