@@ -16,12 +16,12 @@ export const fetchComicsesThunkCreator = (page, size) => async (dispatch, getSta
   const state = getState();
   const { filters, sort } = state;
 
-  const publisher = filters.publishers.join(',');
-  const character = filters.characters.join(',');
+  const publishers = filters.publishers.join(',');
+  const characters = filters.characters.join(',');
   const { title } = filters;
 
   const response = await fetch(
-    `http://localhost:5000/comics?publisher=${publisher}&character=${character}&title=${title}&sort=${sort}&page=${page}&size=${size}`,
+    `http://localhost:5000/comics?publisher=${publishers}&character=${characters}&title=${title}&sort=${sort}&page=${page}&size=${size}`,
     { credentials: 'include' }
   );
   if (response.status === 200) {
@@ -36,6 +36,6 @@ export const logOutThunk = async dispatch => {
   if (response.status === 200) {
     socket.disconnect();
     dispatch(setIsAuthenticated(false));
-    dispatch(setUser(null));
+    dispatch(setUser({ email: '', displayName: '' }));
   }
 };
