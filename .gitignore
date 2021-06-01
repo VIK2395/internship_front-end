@@ -4,8 +4,6 @@
 
 .vscode
 .env
-.eslintrc.json
-.eslintignore
 
 # testing
 /coverage
