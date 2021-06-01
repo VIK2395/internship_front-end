@@ -23,7 +23,7 @@ export const fetchComicsesThunkCreator = (page, size) => async (dispatch, getSta
   const { title } = filters;
 
   const response = await fetch(
-    `${process.env.REACT_APP_BACK_END_DOMAIN}/comics?publisher=${publisher}&character=${character}&title=${title}&sort=${sort}&page=${page}&size=${size}`,
+    `${process.env.REACT_APP_BACK_END_DOMAIN}/comics?publisher=${publishers}&character=${characters}&title=${title}&sort=${sort}&page=${page}&size=${size}`,
     { credentials: 'include' }
   );
   if (response.status === 200) {
