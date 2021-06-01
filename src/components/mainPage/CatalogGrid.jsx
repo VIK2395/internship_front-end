@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Box, Flex, SimpleGrid, Grid } from '@chakra-ui/react';
+import { Box, SimpleGrid } from '@chakra-ui/react';
 import { Card } from './Card';
 import CatalogPagination from './CatalogPagination';
 import './grid-style.css';

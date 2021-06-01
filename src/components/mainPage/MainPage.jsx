@@ -6,7 +6,7 @@ import CatalogHeader from './CatalogHeader';
 import CatalogSidebar from './CatalogSidebar';
 import { CatalogGrid } from './CatalogGrid';
 import MobileDrawer from './MobileDrawer';
-import { setCharacters, setPublishers, setComicses, setPagination } from '../../redux/actions';
+import { setCharacters, setPublishers } from '../../redux/actions';
 import { fetchComicsesThunkCreator } from '../../redux/thunks';
 import ChatWindow from './chat/ChatWindow';
 
@@ -18,7 +18,9 @@ const MainPage = () => {
 
   useEffect(() => {
     const fetchCharactes = async () => {
-      const response = await fetch('http://localhost:5000/character', { credentials: 'include' });
+      const response = await fetch(`${process.env.REACT_APP_BACK_END_DOMAIN}/character`, {
+        credentials: 'include',
+      });
       if (response.status === 200) {
         const characters = await response.json();
         dispatch(setCharacters(characters));
@@ -27,7 +29,9 @@ const MainPage = () => {
     fetchCharactes();
 
     const fetchPublishers = async () => {
-      const response = await fetch('http://localhost:5000/publisher', { credentials: 'include' });
+      const response = await fetch(`${process.env.REACT_APP_BACK_END_DOMAIN}/publisher`, {
+        credentials: 'include',
+      });
       if (response.status === 200) {
         const publishers = await response.json();
         dispatch(setPublishers(publishers));
@@ -41,15 +45,7 @@ const MainPage = () => {
   if (!isAuthenticated) return <Redirect to="/auth/login" />;
 
   return (
-    <Box
-      pb={8}
-      pt="80px"
-      // bg="linear-gradient(#e66465, #9198e5)"
-      // bg="linear-gradient(45deg, #9dc66b 5%, #4fa49a 30%, #4361c2)"
-      // bg="#f0f4f4"
-      // bg="#323459 linear-gradient(135deg, rgba(114, 97, 147, 0.175) 25%, rgba(227, 123, 124, 0.175) 50%, rgba(255, 228, 180, 0.175))"
-      // alignItems="flex-start"
-    >
+    <Box pb={8} pt="80px">
       <CatalogHeader onOpen={onOpen} />
       <MobileDrawer isOpen={isOpen} onClose={onClose} />
       <Flex

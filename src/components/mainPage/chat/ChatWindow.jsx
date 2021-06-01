@@ -21,9 +21,10 @@ const ChatWindow = ({ comics }) => {
 
   useEffect(() => {
     const fetchChatHistory = async () => {
-      const response = await fetch(`http://localhost:5000/chathistory?room=${room}`, {
-        credentials: 'include',
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACK_END_DOMAIN}/chathistory?room=${room}`,
+        { credentials: 'include' }
+      );
       const chathistory = await response.json();
 
       const serializedChatHistory = chathistory.map(message => {

@@ -28,7 +28,6 @@ import {
 import { useDispatch } from 'react-redux';
 import { socket } from '../../socketioConfig/socketioConfig';
 import { setIsAuthenticated, setUser } from '../../redux/actions';
-import './style.css';
 
 const SignupForm = props => {
   const dispatch = useDispatch();
@@ -79,7 +78,7 @@ const SignupForm = props => {
 
     try {
       setIsLoading(true);
-      const response = await fetch('http://localhost:5000/auth/signup', {
+      const response = await fetch(`${process.env.REACT_APP_BACK_END_DOMAIN}/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, displayName: `${firstName} ${lastName}` }),

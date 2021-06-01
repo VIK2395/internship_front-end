@@ -7,7 +7,6 @@ const Logo = () => (
       <Image
         h={{ base: 8, sm: 10, md: 12 }}
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/DC_Comics_logo.svg/600px-DC_Comics_logo.svg.png"
-        // src="http://localhost:3000/comics-designstyle-comics-m.png"
         alt="DC"
       />
     </Center>

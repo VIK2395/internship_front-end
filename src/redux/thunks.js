@@ -2,7 +2,9 @@ import { setIsAuthenticated, setPagination, setComicses, setUser } from './actio
 import { socket } from '../socketioConfig/socketioConfig';
 
 export const fetchAuthenticatedStatusThunk = async dispatch => {
-  const response = await fetch('http://localhost:5000/auth/me', { credentials: 'include' });
+  const response = await fetch(`${process.env.REACT_APP_BACK_END_DOMAIN}/auth/me`, {
+    credentials: 'include',
+  });
   const user = await response.json();
   if (response.status === 200) {
     dispatch(setUser(user));
@@ -21,7 +23,7 @@ export const fetchComicsesThunkCreator = (page, size) => async (dispatch, getSta
   const { title } = filters;
 
   const response = await fetch(
-    `http://localhost:5000/comics?publisher=${publisher}&character=${character}&title=${title}&sort=${sort}&page=${page}&size=${size}`,
+    `${process.env.REACT_APP_BACK_END_DOMAIN}/comics?publisher=${publisher}&character=${character}&title=${title}&sort=${sort}&page=${page}&size=${size}`,
     { credentials: 'include' }
   );
   if (response.status === 200) {
@@ -32,7 +34,9 @@ export const fetchComicsesThunkCreator = (page, size) => async (dispatch, getSta
 };
 
 export const logOutThunk = async dispatch => {
-  const response = await fetch('http://localhost:5000/auth/logout', { credentials: 'include' });
+  const response = await fetch(`${process.env.REACT_APP_BACK_END_DOMAIN}/auth/logout`, {
+    credentials: 'include',
+  });
   if (response.status === 200) {
     socket.disconnect();
     dispatch(setIsAuthenticated(false));
