@@ -22,8 +22,10 @@ const MobileDrawer = ({ isOpen, onClose }) => {
     onClose();
   };
 
-  const onClearFiltyers = () => {
+  const onClearFilters = () => {
     dispatch(clearFilters());
+    dispatch(fetchComicsesThunkCreator());
+    onClose();
   };
 
   return (
@@ -36,7 +38,7 @@ const MobileDrawer = ({ isOpen, onClose }) => {
           <ComicsFilterBody />
         </DrawerBody>
         <DrawerFooter borderTopWidth="1px">
-          <Button mr={2} pr={4} colorScheme="yellow" onClick={onClearFiltyers}>
+          <Button mr={2} pr={4} colorScheme="yellow" onClick={onClearFilters}>
             Clear
           </Button>
           <Button w="100%" colorScheme="green" onClick={onApplyFilters}>
