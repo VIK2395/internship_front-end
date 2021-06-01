@@ -1,15 +1,13 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Flex, Spacer, Select, Button, SimpleGrid, Box } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
+import { Flex, Spacer, Select, Button, SimpleGrid } from '@chakra-ui/react';
 import { BsFunnel } from 'react-icons/bs';
 import { setSort } from '../../redux/actions';
 import { fetchComicsesThunkCreator } from '../../redux/thunks';
 
 const CatalogHeader = ({ onOpen }) => {
   const dispatch = useDispatch();
-  // const { characters, publishers, title } = useSelector(state => state.filters);
 
-  // Popularity/Reviews
   const onSortChange = ev => {
     dispatch(setSort(ev.target.value));
     dispatch(fetchComicsesThunkCreator());

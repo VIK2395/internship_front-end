@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ChakraProvider } from '@chakra-ui/react';
-import { Paginator, Container, Previous, usePaginator, Next, PageGroup } from 'chakra-paginator';
-import { setCharacters, setPublishers, setComicses, setPagination } from '../../redux/actions';
+import { Paginator, Container, Previous, Next, PageGroup } from 'chakra-paginator';
 import { fetchComicsesThunkCreator } from '../../redux/thunks';
 
 const CatalogPagination = () => {

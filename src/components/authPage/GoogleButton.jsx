@@ -4,7 +4,7 @@ import { FcGoogle } from 'react-icons/fc';
 
 const GoogleButton = () => {
   const handleClick = () => {
-    window.open('http://localhost:5000/auth/google', '_self');
+    window.open(`${process.env.REACT_APP_BACK_END_DOMAIN}/auth/google`, '_self');
   };
 
   return (
