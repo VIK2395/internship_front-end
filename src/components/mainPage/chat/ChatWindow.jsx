@@ -1,4 +1,3 @@
-/* eslint-disable no-return-assign */
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -8,7 +7,7 @@ import { setComicsDiscussed } from '../../../redux/actions';
 
 const ChatWindow = ({ comics }) => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.user);
   const room = comics.title;
 
   const [messageList, setMessage] = useState([]);
@@ -27,35 +26,33 @@ const ChatWindow = ({ comics }) => {
       );
       const chathistory = await response.json();
 
-      const serializedChatHistory = chathistory.map(message => {
+      const serializedChatHistory = chathistory.map((message) => {
         const messageCopy = message;
         messageCopy.time = moment(messageCopy.time).format('h:mm a');
         if (messageCopy.author.email === user.email) {
           messageCopy.author = 'me';
         } else {
-          // eslint-disable-next-line prefer-destructuring
           messageCopy.author = messageCopy.author.displayName.split(' ')[0];
         }
         return messageCopy;
       });
 
-      setMessage(prev => [...prev, ...serializedChatHistory]);
+      setMessage((prev) => [...prev, ...serializedChatHistory]);
       // on new chat window opened/created => Join chatroom
       socket.emit('joinRoom', { author: user, chatRoom: room });
     };
     fetchChatHistory();
 
     // Message from server // admin
-    socket.on('message', message => {
+    socket.on('message', (message) => {
       const messageCopy = message;
       messageCopy.time = moment(messageCopy.time).format('h:mm a');
       if (messageCopy.author.email === user.email) {
         messageCopy.author = 'me';
       } else {
-        // eslint-disable-next-line prefer-destructuring
         messageCopy.author = messageCopy.author.displayName.split(' ')[0];
       }
-      setMessage(prev => [...prev, messageCopy]);
+      setMessage((prev) => [...prev, messageCopy]);
     });
 
     // Get room and users
@@ -70,27 +67,19 @@ const ChatWindow = ({ comics }) => {
       socket.removeAllListeners('message');
       socket.removeAllListeners('roomUsers');
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onMessageWasSent = message => {
+  const onMessageWasSent = (message) => {
     const copyOfMessage = message;
     copyOfMessage.author = user;
     socket.emit('chatMessage', copyOfMessage);
   };
 
-  // const onFilesSelected = () => {};
-
-  const onFilesSelected = fileList => {
+  const onFilesSelected = (fileList) => {
     console.log('Performing file(s) save...');
-
-    // const formData = new FormData();
-    // formData.append(fileList[0].name, fileList[0]);
-    // const sendFile = fetch('http');
 
     const fileMassages = [];
 
-    // eslint-disable-next-line no-plusplus
     for (let i = 0; i < fileList.length; i++) {
       fileMassages.push({
         author: 'me',
@@ -102,16 +91,16 @@ const ChatWindow = ({ comics }) => {
       });
     }
 
-    setMessage(prev => [...prev, ...fileMassages]);
+    setMessage((prev) => [...prev, ...fileMassages]);
   };
 
   const onClose = () => {
     dispatch(setComicsDiscussed({}));
   };
 
-  const serializeRoomUsers = usersArray => {
+  const serializeRoomUsers = (usersArray) => {
     const string = `${usersArray.length} user(s) in the chat: ${usersArray
-      .map(user => user.username)
+      .map((user) => user.username)
       .join(', ')}`;
     return string;
   };
@@ -126,8 +115,6 @@ const ChatWindow = ({ comics }) => {
       showEmoji
       handleClose={onClose}
       roomUsers={serializeRoomUsers(roomUsers)}
-      // handleClick={}
-      // newMessagesCount={}
     />
   );
 };
